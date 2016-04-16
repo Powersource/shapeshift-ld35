@@ -29,4 +29,17 @@ public class Main : MonoBehaviour
 	{
 		player.move ();
 	}
+
+	public void hurt(GameObject cube, Collision2D collision){
+		if (collision.gameObject.tag == "hurt") {
+			cube.SetActive(false);
+			if (!player.isAlive ()) {
+				gameOver ();
+			}
+		}
+	}
+
+	void gameOver (){
+		Debug.Log ("DEAD");
+	}
 }

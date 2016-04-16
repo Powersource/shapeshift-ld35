@@ -38,6 +38,16 @@ namespace AssemblyCSharp
 			Vector2 dir = new Vector2 (hDir, vDir).normalized;
 			containerRB.velocity = dir * playerSpeed;
 		}
+
+		public bool isAlive(){
+			int aliveCount = 0;
+			foreach(GameObject cube in cubes){
+				if (cube.activeSelf) {
+					aliveCount++;
+				}
+			}
+			return aliveCount > 0;
+		}
 	}
 }
 
