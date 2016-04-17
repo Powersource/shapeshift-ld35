@@ -12,7 +12,7 @@ GameObject:
   - 50: {fileID: 5042364}
   - 60: {fileID: 6041322}
   m_Layer: 0
-  m_Name: SimpleEnemy
+  m_Name: EnemyBullet
   m_TagString: hurt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

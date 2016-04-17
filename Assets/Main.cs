@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
-	GameObject simpleEnemy;
 	GameObject deadCanvas;
 
 	Player player;
+	Enemy enemy;
 
 	// Use this for initialization
 	void Start ()
@@ -18,11 +18,7 @@ public class Main : MonoBehaviour
 		deadCanvas = GameObject.Find ("DeadCanvas");
 		deadCanvas.SetActive (false);
 		player = new Player ();
-		simpleEnemy = Resources.Load ("SimpleEnemy") as GameObject;
-		GameObject enemy = GameObject.Instantiate (simpleEnemy);
-		enemy.transform.position = new Vector2 (0, 5f);
-		enemy.GetComponent<Rigidbody2D> ().velocity = Vector2.down;
-		enemy.transform.Rotate (new Vector3 (0, 0, 180f));
+		enemy = new Enemy ();
 	}
 	
 	// Update is called once per frame
@@ -34,6 +30,8 @@ public class Main : MonoBehaviour
 	void FixedUpdate ()
 	{
 		player.fixedUpdate ();
+		enemy.fixedUpdate ();
+
 		if (Input.GetButton ("Jump")) {
 			Time.timeScale = 0.25f;
 		} else {
