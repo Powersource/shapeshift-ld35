@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
-	public GameObject playerCube;
-	public GameObject simpleEnemy;
-
+	GameObject simpleEnemy;
 	GameObject deadCanvas;
 
 	Player player;
@@ -19,9 +17,10 @@ public class Main : MonoBehaviour
 		Time.timeScale = 1.0f;
 		deadCanvas = GameObject.Find ("DeadCanvas");
 		deadCanvas.SetActive (false);
-		player = new Player (playerCube);
+		player = new Player ();
+		simpleEnemy = Resources.Load ("SimpleEnemy") as GameObject;
 		GameObject enemy = GameObject.Instantiate (simpleEnemy);
-		enemy.transform.position = new Vector2 (0, 10f);
+		enemy.transform.position = new Vector2 (0, 5f);
 		enemy.GetComponent<Rigidbody2D> ().velocity = Vector2.down;
 		enemy.transform.Rotate(new Vector3(0,0,180f));
 	}
@@ -34,7 +33,7 @@ public class Main : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		player.move ();
+		player.fixedUpdate ();
 		if (Input.GetButton ("Jump")) {
 			Time.timeScale = 0.25f;
 		} else {
@@ -52,12 +51,6 @@ public class Main : MonoBehaviour
 	}
 
 	void gameOver (){
-		Debug.Log ("DEAD");
-//		Text text = deadCanvas.AddComponent<Text> ();
-//		text.text = "You dead";
-//		// I'm setting the "size" to 12 but the font size ends up being 14
-//		text.font = UnityEngine.Font.CreateDynamicFontFromOSFont("Arial", 12);
-//		Button button = deadCanvas.AddComponent<Button> ();
 		Time.timeScale = 0;
 		deadCanvas.SetActive(true);
 	}

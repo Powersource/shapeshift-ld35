@@ -9,20 +9,28 @@ namespace AssemblyCSharp
 
 		GameObject container;
 		Rigidbody2D containerRB;
+		GameObject playerCube;
 		GameObject[,] cubes;
 		int cubeSide;
 		float playerSpeed;
 		float rotateSpeed;
-		// float cubeWidth;
+		float cubeWidth;
+		float playerFireDelay;
+		float playerFireCountdown;
 
-		public Player (GameObject playerCube)
+		public Player ()
 		{
 			cubeSide = 3;
 			playerSpeed = 5f;
 			rotateSpeed = 1f;
+			// In seconds
+			playerFireDelay = 1f;
+			playerFireCountdown = 0f;
 
 			container = new GameObject ("PlayerContainer");
 			containerRB = container.AddComponent<Rigidbody2D> ();
+
+			playerCube = Resources.Load ("PlayerCube") as GameObject;
 
 			cubes = new GameObject[cubeSide, cubeSide];
 			for (int y = 0; y < cubeSide; y++) {
@@ -35,10 +43,10 @@ namespace AssemblyCSharp
 			// I do this after adding the cubes. If I do it before
 			// then the cubes don't shrink.
 			container.transform.localScale = Vector3.one / 2;
-			// cubeWidth = cubes [0, 0].GetComponent<BoxCollider2D> ().size.x;
+			cubeWidth = cubes [0, 0].GetComponent<BoxCollider2D> ().size.x;
 		}
 
-		public void move ()
+		public void fixedUpdate ()
 		{
 			// Setting velocity
 			containerRB.velocity = Vector2.zero;
@@ -49,7 +57,22 @@ namespace AssemblyCSharp
 
 			// Rotating
 			float rotateDir = Input.GetAxisRaw ("Aim");
+			containerRB.angularVelocity = 0;
 			container.transform.Rotate(new Vector3(0, 0, -rotateDir * rotateSpeed));
+
+			// Firing
+			if (Input.GetButton ("Fire1") && playerFireCountdown <= 0) {
+				Debug.Log("FIRE!");
+				GameObject bullet = GameObject.Instantiate (Resources.Load ("PlayerBullet") as GameObject);
+				bullet.transform.localScale = container.transform.localScale;
+				// hacky as fuck, placing the bullet relative to the
+				// container then releasing it
+				bullet.transform.parent = container.transform;
+				bullet.transform.localPosition = new Vector2 (0, cubeWidth * (cubeSide+1) / 2);
+				bullet.transform.parent = null;
+				playerFireCountdown = playerFireDelay;
+			}
+			playerFireCountdown -= Time.deltaTime;
 		}
 
 		public bool isAlive ()
