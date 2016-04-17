@@ -258,8 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850abf9031caa48e29e1d34f56f45d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCube: {fileID: 172842, guid: 97e59262bdaed476393f45197049a0d6, type: 2}
-  simpleEnemy: {fileID: 157686, guid: 1f89daa0962244376bdd37776652203d, type: 2}
 --- !u!1 &724016886
 GameObject:
   m_ObjectHideFlags: 0

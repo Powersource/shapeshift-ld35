@@ -17,6 +17,7 @@ namespace AssemblyCSharp
 		float cubeWidth;
 		float playerFireDelay;
 		float playerFireCountdown;
+		float playerBulletSpeed;
 
 		public Player ()
 		{
@@ -26,6 +27,7 @@ namespace AssemblyCSharp
 			// In seconds
 			playerFireDelay = 1f;
 			playerFireCountdown = 0f;
+			playerBulletSpeed = playerSpeed * 2;
 
 			container = new GameObject ("PlayerContainer");
 			containerRB = container.AddComponent<Rigidbody2D> ();
@@ -68,7 +70,10 @@ namespace AssemblyCSharp
 				// hacky as fuck, placing the bullet relative to the
 				// container then releasing it
 				bullet.transform.parent = container.transform;
+				bullet.transform.rotation = container.transform.rotation;
 				bullet.transform.localPosition = new Vector2 (0, cubeWidth * (cubeSide+1) / 2);
+				// I seem to have to do it explicity since the .velocity is in world space
+				bullet.GetComponent<Rigidbody2D> ().velocity = container.transform.up * playerBulletSpeed;
 				bullet.transform.parent = null;
 				playerFireCountdown = playerFireDelay;
 			}
