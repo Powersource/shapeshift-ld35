@@ -43,6 +43,7 @@ public class Main : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "hurt") {
 			cube.SetActive (false);
+			Object.Destroy (collision.gameObject);
 			if (!player.isAlive ()) {
 				gameOver ();
 			}
@@ -51,7 +52,7 @@ public class Main : MonoBehaviour
 
 	public void bulletHurt (GameObject bullet, Collision2D collision)
 	{
-		if (collision.gameObject.tag == "enemy") {
+		if (collision.gameObject.tag.Equals("enemy")) {
 			Debug.Log ("Hit enemy. Killing enemy and bullet.");
 			Object.Destroy (collision.gameObject);
 			Object.Destroy (bullet);
@@ -60,7 +61,7 @@ public class Main : MonoBehaviour
 			Object.Destroy (collision.gameObject);
 			Object.Destroy (bullet);
 		} else {
-			Debug.LogWarning ("Some weird collision just happened");
+			Debug.LogWarning (bullet.gameObject.tag + " just collided with " + collision.gameObject.tag );
 		}
 	}
 

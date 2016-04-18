@@ -18,16 +18,20 @@ namespace AssemblyCSharp
 		float playerFireDelay;
 		float playerFireCountdown;
 		float playerBulletSpeed;
+		float xLimit;
+		float yLimit;
 
 		public Player ()
 		{
 			cubeSide = 3;
 			playerSpeed = 5f;
-			rotateSpeed = 1f;
+			rotateSpeed = 60f;
 			// In seconds
 			playerFireDelay = 1f;
 			playerFireCountdown = 0f;
 			playerBulletSpeed = playerSpeed * 2;
+			xLimit = 3.33f;
+			yLimit = 5f;
 
 			container = new GameObject ("PlayerContainer");
 			containerRB = container.AddComponent<Rigidbody2D> ();
@@ -57,10 +61,16 @@ namespace AssemblyCSharp
 			Vector2 dir = new Vector2 (hDir, vDir).normalized;
 			containerRB.velocity = dir * playerSpeed;
 
+			// Limiting movement
+			Vector2 pos = container.transform.position;
+			pos.x = Mathf.Clamp (pos.x, -xLimit, xLimit);
+			pos.y = Mathf.Clamp (pos.y, -yLimit, yLimit);
+			container.transform.position = pos;
+
 			// Rotating
 			float rotateDir = Input.GetAxisRaw ("Aim");
 			containerRB.angularVelocity = 0;
-			container.transform.Rotate(new Vector3(0, 0, -rotateDir * rotateSpeed));
+			container.transform.Rotate(new Vector3(0, 0, -rotateDir * rotateSpeed * Time.deltaTime));
 
 			// Firing
 			if (Input.GetButton ("Fire1") && playerFireCountdown <= 0) {
@@ -75,6 +85,9 @@ namespace AssemblyCSharp
 				// I seem to have to do it explicity since the .velocity is in world space
 				bullet.GetComponent<Rigidbody2D> ().velocity = container.transform.up * playerBulletSpeed;
 				bullet.transform.parent = null;
+
+				UnityEngine.Object.Destroy (bullet, 20f);
+
 				playerFireCountdown = playerFireDelay;
 			}
 			playerFireCountdown -= Time.deltaTime;
