@@ -11,6 +11,8 @@ namespace AssemblyCSharp
 		Rigidbody2D containerRB;
 		GameObject playerCube;
 		GameObject[,] cubes;
+		AudioClip soundClip;
+		AudioSource sound;
 		int cubeSide;
 		float playerSpeed;
 		float rotateSpeed;
@@ -50,6 +52,14 @@ namespace AssemblyCSharp
 			// then the cubes don't shrink.
 			container.transform.localScale = Vector3.one / 2;
 			cubeWidth = cubes [0, 0].GetComponent<BoxCollider2D> ().size.x;
+
+			sound = container.AddComponent<AudioSource> ();
+			soundClip = Resources.Load ("Movement") as AudioClip;
+			sound.clip = soundClip;
+			sound.Play ();
+			sound.Pause ();
+			sound.volume = 0.25f;
+			sound.loop = true;
 		}
 
 		public void fixedUpdate ()
@@ -71,6 +81,13 @@ namespace AssemblyCSharp
 			float rotateDir = Input.GetAxisRaw ("Aim");
 			containerRB.angularVelocity = 0;
 			container.transform.Rotate(new Vector3(0, 0, -rotateDir * rotateSpeed * Time.deltaTime));
+
+			// Movement sound on and off
+			if (containerRB.velocity != Vector2.zero || !Mathf.Approximately(rotateDir,0f)) {
+				sound.UnPause ();
+			} else {
+				sound.Pause ();
+			}
 
 			// Firing
 			if (Input.GetButton ("Fire1") && playerFireCountdown <= 0) {
