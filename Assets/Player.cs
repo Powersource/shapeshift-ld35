@@ -27,7 +27,7 @@ namespace AssemblyCSharp
 		{
 			cubeSide = 3;
 			playerSpeed = 5f;
-			rotateSpeed = 60f;
+			rotateSpeed = 90f;
 			// In seconds
 			playerFireDelay = 1f;
 			playerFireCountdown = 0f;
@@ -45,7 +45,7 @@ namespace AssemblyCSharp
 				for (int x = 0; x < cubeSide; x++) {
 					cubes [x, y] = GameObject.Instantiate (playerCube);
 					cubes [x, y].transform.parent = container.transform;
-					cubes [x, y].transform.localPosition = new Vector2 (-cubeSide/2 + x, -cubeSide/2 + y);
+					cubes [x, y].transform.localPosition = new Vector2 (-cubeSide / 2 + x, -cubeSide / 2 + y);
 				}
 			}
 			// I do this after adding the cubes. If I do it before
@@ -80,10 +80,10 @@ namespace AssemblyCSharp
 			// Rotating
 			float rotateDir = Input.GetAxisRaw ("Aim");
 			containerRB.angularVelocity = 0;
-			container.transform.Rotate(new Vector3(0, 0, -rotateDir * rotateSpeed * Time.deltaTime));
+			container.transform.Rotate (new Vector3 (0, 0, -rotateDir * rotateSpeed * Time.deltaTime));
 
 			// Movement sound on and off
-			if (containerRB.velocity != Vector2.zero || !Mathf.Approximately(rotateDir,0f)) {
+			if (containerRB.velocity != Vector2.zero || !Mathf.Approximately (rotateDir, 0f)) {
 				sound.UnPause ();
 			} else {
 				sound.Pause ();
@@ -91,14 +91,14 @@ namespace AssemblyCSharp
 
 			// Firing
 			if (Input.GetButton ("Fire1") && playerFireCountdown <= 0) {
-				Debug.Log("FIRE!");
+				Debug.Log ("FIRE!");
 				GameObject bullet = GameObject.Instantiate (Resources.Load ("PlayerBullet") as GameObject);
 				bullet.transform.localScale = container.transform.localScale;
 				// hacky as fuck, placing the bullet relative to the
 				// container then releasing it
 				bullet.transform.parent = container.transform;
 				bullet.transform.rotation = container.transform.rotation;
-				bullet.transform.localPosition = new Vector2 (0, cubeWidth * (cubeSide+1) / 2);
+				bullet.transform.localPosition = new Vector2 (0, cubeWidth * (cubeSide + 1) / 2);
 				// I seem to have to do it explicity since the .velocity is in world space
 				bullet.GetComponent<Rigidbody2D> ().velocity = container.transform.up * playerBulletSpeed;
 				bullet.transform.parent = null;

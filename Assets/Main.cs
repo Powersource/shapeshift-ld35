@@ -11,7 +11,9 @@ public class Main : MonoBehaviour
 	GameObject music;
 
 	Player player;
-	Enemy enemy;
+	ArrayList enemies;
+
+	float timeUntilEnemy;
 
 	// Use this for initialization
 	void Start ()
@@ -31,7 +33,9 @@ public class Main : MonoBehaviour
 		//music.GetComponent<AudioSource> ().mute = true;
 
 		player = new Player ();
-		enemy = new Enemy ();
+		enemies = new ArrayList ();
+
+		timeUntilEnemy = 1f;
 	}
 	
 	// Update is called once per frame
@@ -43,7 +47,14 @@ public class Main : MonoBehaviour
 	void FixedUpdate ()
 	{
 		player.fixedUpdate ();
-		enemy.fixedUpdate ();
+		foreach (Enemy enemy in enemies) { 
+			// This throws an exception but I'd argue less breaks because
+			// of it so I'm keeping it.
+			if (!enemy.isAlive() || enemy.enemy.transform.position.y < -6f) {
+				enemies.Remove (enemy);
+			}
+			enemy.fixedUpdate ();
+		}
 
 //		if (Input.GetButton ("Jump")) {
 //			Time.timeScale = 0.25f;
@@ -54,6 +65,17 @@ public class Main : MonoBehaviour
 		if (Input.GetButton ("Jump")) {
 			gameOver ();
 		}
+
+		if (timeUntilEnemy <= 0) {
+			enemies.Add(new Enemy ());
+			timeUntilEnemy = enemySpawnDelay ();
+			Debug.Log ("Time to next spawn: " + timeUntilEnemy);
+		}
+		timeUntilEnemy -= Time.deltaTime;
+	}
+
+	private float enemySpawnDelay(){
+		return 4 * Mathf.Pow (1.02f, -Time.timeSinceLevelLoad);
 	}
 
 	public void hurt (GameObject cube, Collision2D collision)
@@ -70,7 +92,7 @@ public class Main : MonoBehaviour
 
 	public void bulletHurt (GameObject bullet, Collision2D collision)
 	{
-		if (collision.gameObject.tag.Equals("enemy")) {
+		if (collision.gameObject.tag.Equals ("enemy")) {
 			Debug.Log ("Hit enemy. Killing enemy and bullet.");
 			Object.Destroy (collision.gameObject);
 			Object.Destroy (bullet);
@@ -80,7 +102,7 @@ public class Main : MonoBehaviour
 			Object.Destroy (collision.gameObject);
 			Object.Destroy (bullet);
 		} else {
-			Debug.LogWarning (bullet.gameObject.tag + " just collided with " + collision.gameObject.tag );
+			Debug.LogWarning (bullet.gameObject.tag + " just collided with " + collision.gameObject.tag);
 		}
 	}
 
