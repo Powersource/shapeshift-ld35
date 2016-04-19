@@ -25,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6876775, y: 2.608992, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61,10 +61,18 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: -0.5, y: 0.5}
-      - {x: -0.5, y: -0.5}
-      - {x: 0.5, y: -0.5}
-      - {x: 0.5, y: 0.5}
+    - - {x: 0.065294266, y: 0.4965763}
+      - {x: -0.06439209, y: 0.50299263}
+      - {x: -0.121417046, y: 0.37708473}
+      - {x: -0.13289213, y: 0.048444748}
+      - {x: -0.49847507, y: -0.19158936}
+      - {x: -0.49508333, y: -0.32299995}
+      - {x: -0.24618578, y: -0.49513435}
+      - {x: 0.25515652, y: -0.5}
+      - {x: 0.50491667, y: -0.31316566}
+      - {x: 0.5025134, y: -0.1861}
+      - {x: 0.14276838, y: 0.030267715}
+      - {x: 0.13616657, y: 0.36725044}
 --- !u!212 &21229312
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -91,7 +99,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300940, guid: 297f0044cf22c45eea7fed9f732f18be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da5594a1518e04fcf942979994c7ba94, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

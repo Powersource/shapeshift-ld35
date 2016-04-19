@@ -29,7 +29,7 @@ namespace AssemblyCSharp
 			playerSpeed = 5f;
 			rotateSpeed = 90f;
 			// In seconds
-			playerFireDelay = 1f;
+			playerFireDelay = 0.66f;
 			playerFireCountdown = 0f;
 			playerBulletSpeed = playerSpeed * 2;
 			xLimit = 3.33f;

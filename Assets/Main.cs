@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Main : MonoBehaviour
 {
 	GameObject deadCanvas;
+	GameObject scoreText;
 	GameObject musicPrefab;
 	GameObject music;
 
@@ -18,9 +19,18 @@ public class Main : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		// Fucking unity bug
+		GameObject.Instantiate (Resources.Load ("Background"));
+
+		GameObject[] li = GameObject.FindGameObjectsWithTag ("enemy");
+		foreach (GameObject en in li) {
+			Object.Destroy (en);
+		}
 		Time.timeScale = 1.0f;
 		deadCanvas = GameObject.Find ("DeadCanvas");
 		deadCanvas.SetActive (false);
+
+		scoreText = GameObject.Find ("ScoreText");
 
 		musicPrefab = Resources.Load ("Music") as GameObject;
 		music = GameObject.Find ("Music");
@@ -41,7 +51,7 @@ public class Main : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
+
 	}
 
 	void FixedUpdate ()
@@ -65,6 +75,8 @@ public class Main : MonoBehaviour
 		if (Input.GetButton ("Jump")) {
 			gameOver ();
 		}
+
+		scoreText.GetComponent<Text> ().text = "Seconds survived: " + (int) Time.timeSinceLevelLoad;
 
 		if (timeUntilEnemy <= 0) {
 			enemies.Add(new Enemy ());
